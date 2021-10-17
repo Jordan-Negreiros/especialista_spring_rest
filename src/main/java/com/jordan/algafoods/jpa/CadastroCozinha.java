@@ -26,7 +26,7 @@ public class CadastroCozinha {
     }
 
     @Transactional
-    public Cozinha adicionar(Cozinha cozinha) {
-        return entityManager.merge(cozinha);
+    public void salvar(Cozinha cozinha) {
+        entityManager.merge(cozinha);
     }
 }

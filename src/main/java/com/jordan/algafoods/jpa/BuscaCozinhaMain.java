@@ -21,8 +21,8 @@ public class BuscaCozinhaMain {
 
         var cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
 
-        cadastroCozinha.adicionar(cozinha1);
-        cadastroCozinha.adicionar(cozinha2);
+        cadastroCozinha.salvar(cozinha1);
+        cadastroCozinha.salvar(cozinha2);
 
         System.out.println(cadastroCozinha
             .buscar(1L).getNome());
