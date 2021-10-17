@@ -2,6 +2,7 @@ package com.jordan.algafoods.jpa;
 
 import com.jordan.algafoods.AlgafoodsApplication;
 import com.jordan.algafoods.domain.model.Cozinha;
+import com.jordan.algafoods.domain.repository.CozinhaRepository;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
@@ -21,16 +22,16 @@ public class AlteracaoCozinhaMain {
         cozinha2.setId(2L);
         cozinha2.setNome("Japonesa");
 
-        var cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
+        var cozinhaRepository = applicationContext.getBean(CozinhaRepository.class);
 
-        cadastroCozinha
+        cozinhaRepository
             .listar()
             .forEach(cozinha -> System.out.println(cozinha.getNome()));
 
-        cadastroCozinha.salvar(cozinha1);
-        cadastroCozinha.salvar(cozinha2);
+        cozinhaRepository.salvar(cozinha1);
+        cozinhaRepository.salvar(cozinha2);
 
-        cadastroCozinha
+        cozinhaRepository
             .listar()
             .forEach(cozinha -> System.out.println(cozinha.getNome()));
     }

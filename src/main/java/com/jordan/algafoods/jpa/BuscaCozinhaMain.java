@@ -2,6 +2,7 @@ package com.jordan.algafoods.jpa;
 
 import com.jordan.algafoods.AlgafoodsApplication;
 import com.jordan.algafoods.domain.model.Cozinha;
+import com.jordan.algafoods.domain.repository.CozinhaRepository;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
@@ -19,21 +20,21 @@ public class BuscaCozinhaMain {
         var cozinha2 = new Cozinha();
         cozinha2.setNome("Japonesa");
 
-        var cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
+        var cozinhaRepository = applicationContext.getBean(CozinhaRepository.class);
 
-        cadastroCozinha.salvar(cozinha1);
-        cadastroCozinha.salvar(cozinha2);
+        cozinhaRepository.salvar(cozinha1);
+        cozinhaRepository.salvar(cozinha2);
 
-        System.out.println(cadastroCozinha
+        System.out.println(cozinhaRepository
             .buscar(1L).getNome());
 
-        System.out.println(cadastroCozinha
+        System.out.println(cozinhaRepository
             .buscar(2L).getNome());
 
-        System.out.println(cadastroCozinha
+        System.out.println(cozinhaRepository
             .buscar(3L).getNome());
 
-        System.out.println(cadastroCozinha
+        System.out.println(cozinhaRepository
             .buscar(4L).getNome());
 
     }
