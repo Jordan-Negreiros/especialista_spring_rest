@@ -12,7 +12,7 @@ import javax.persistence.Id;
 @Entity
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Cozinha {
+public class FormaPagamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +20,5 @@ public class Cozinha {
     private Long id;
 
     @Column(nullable = false)
-    private String nome;
-
+    private String descricao;
 }

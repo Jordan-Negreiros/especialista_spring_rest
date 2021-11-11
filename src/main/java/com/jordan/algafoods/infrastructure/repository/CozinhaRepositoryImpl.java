@@ -32,7 +32,8 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
     }
 
     @Override
-    public void remover(final Cozinha cozinha) {
+    public void remover(Cozinha cozinha) {
+        cozinha = buscar(cozinha.getId());
         entityManager.remove(cozinha);
     }
 

@@ -1,6 +1,5 @@
 package com.jordan.algafoods.domain.repository;
 
-import com.jordan.algafoods.domain.model.Cozinha;
 import com.jordan.algafoods.domain.model.Restaurante;
 
 import java.util.List;

@@ -1,6 +1,5 @@
 package com.jordan.algafoods.infrastructure.repository;
 
-import com.jordan.algafoods.domain.model.Cozinha;
 import com.jordan.algafoods.domain.model.Restaurante;
 import com.jordan.algafoods.domain.repository.RestauranteRepository;
 import org.springframework.stereotype.Component;
@@ -33,7 +32,8 @@ public class RestauranteRepositoryImpl implements RestauranteRepository {
     }
 
     @Override
-    public void remover(final Restaurante restaurante) {
+    public void remover(Restaurante restaurante) {
+        restaurante = buscar(restaurante.getId());
         entityManager.remove(restaurante);
     }
 }
