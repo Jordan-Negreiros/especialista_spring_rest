@@ -1,5 +1,6 @@
 package com.jordan.algafoods.infrastructure.repository;
 
+import com.jordan.algafoods.domain.exception.EntidadeNaoEncontradaException;
 import com.jordan.algafoods.domain.model.Cozinha;
 import com.jordan.algafoods.domain.repository.CozinhaRepository;
 import org.springframework.stereotype.Component;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class CozinhaRepositoryImpl implements CozinhaRepository {
@@ -35,9 +37,13 @@ public class CozinhaRepositoryImpl implements CozinhaRepository {
 
     @Override
     @Transactional
-    public void remover(Cozinha cozinha) {
-        cozinha = buscar(cozinha.getId());
-        entityManager.remove(cozinha);
+    public void remover(Long id) {
+        Optional
+            .ofNullable(buscar(id))
+            .ifPresentOrElse(entityManager::remove,
+                () -> {
+                    throw new EntidadeNaoEncontradaException(String.format("Cozinha com código %d não encontrado", id));
+                });
     }
 
 }

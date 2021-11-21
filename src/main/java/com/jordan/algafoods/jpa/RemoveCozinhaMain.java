@@ -29,9 +29,6 @@ public class RemoveCozinhaMain {
             .listar()
             .forEach(cozinha -> System.out.println(cozinha.getNome()));
 
-        var cozinhaARemover = cozinhaRepository.buscar(3L);
-        cozinhaRepository.remover(cozinhaARemover);
-
         cozinhaRepository
             .listar()
             .forEach(cozinha -> System.out.println(cozinha.getNome()));
