@@ -1,13 +1,14 @@
 package com.jordan.algafoods.infrastructure.repository;
 
+import com.jordan.algafoods.domain.exception.EntidadeNaoEncontradaException;
 import com.jordan.algafoods.domain.model.Estado;
-import com.jordan.algafoods.domain.model.Restaurante;
 import com.jordan.algafoods.domain.repository.EstadoRepository;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class EstadoRepositoryImpl implements EstadoRepository {
@@ -33,9 +34,13 @@ public class EstadoRepositoryImpl implements EstadoRepository {
     }
 
     @Override
-    public void remover(Estado estado) {
-        estado = buscar(estado.getId());
-        entityManager.remove(estado);
+    public void remover(Long id) {
+        Optional
+            .ofNullable(buscar(id))
+            .ifPresentOrElse(entityManager::remove,
+                () -> {
+                    throw new EntidadeNaoEncontradaException(String.format("Estado com código %d não encontrado", id));
+                });
     }
 
 }
