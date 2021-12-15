@@ -11,5 +11,5 @@ public interface CidadeRepository {
 
     Cidade salvar(Cidade cozinha);
 
-    void remover(Cidade cozinha);
+    void remover(Long id);
 }
