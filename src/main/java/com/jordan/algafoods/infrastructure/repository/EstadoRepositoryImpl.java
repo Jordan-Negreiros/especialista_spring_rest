@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,11 +30,13 @@ public class EstadoRepositoryImpl implements EstadoRepository {
     }
 
     @Override
+    @Transactional
     public Estado salvar(final Estado estado) {
         return entityManager.merge(estado);
     }
 
     @Override
+    @Transactional
     public void remover(Long id) {
         Optional
             .ofNullable(buscar(id))
