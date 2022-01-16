@@ -35,17 +35,16 @@ import static com.jordan.algafoods.handlers.BeansHandler.getNullPropertyNames;
 public class RestauranteController {
 
     private final RestauranteRepository restauranteRepository;
-
     private final CadastroRestauranteService cadastroRestauranteService;
 
     @GetMapping
     public List<Restaurante> listar() {
-        return restauranteRepository.listar();
+        return restauranteRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Restaurante> buscar(@PathVariable("id") Long id) {
-        return Optional.ofNullable(restauranteRepository.buscar(id))
+        return restauranteRepository.findById(id)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
     }
@@ -75,10 +74,9 @@ public class RestauranteController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<Void> atualizarParcial(@PathVariable Long id, @RequestBody Restaurante restaurantePatch) {
-        return Optional.ofNullable(restauranteRepository.buscar(id))
-            .map(restaurante -> {
-                BeanUtils.copyProperties(restaurantePatch, restaurante, getNullPropertyNames(restaurantePatch));
-                return atualizar(id, restaurante);
-            }).orElse(ResponseEntity.notFound().build());
+        return restauranteRepository.findById(id).map(restaurante -> {
+            BeanUtils.copyProperties(restaurantePatch, restaurante, getNullPropertyNames(restaurantePatch));
+            return atualizar(id, restaurante);
+        }).orElse(ResponseEntity.notFound().build());
     }
 }

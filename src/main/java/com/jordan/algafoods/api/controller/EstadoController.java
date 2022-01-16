@@ -5,42 +5,29 @@ import com.jordan.algafoods.domain.exception.EntidadeNaoEncontradaException;
 import com.jordan.algafoods.domain.model.Estado;
 import com.jordan.algafoods.domain.repository.EstadoRepository;
 import com.jordan.algafoods.domain.service.CadastroEstadoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/estados")
+@RequiredArgsConstructor
 public class EstadoController {
 
-    @Autowired
-    private EstadoRepository estadoRepository;
-
-    @Autowired
-    private CadastroEstadoService estadoService;
+    private final EstadoRepository estadoRepository;
+    private final CadastroEstadoService estadoService;
 
     @GetMapping
     public List<Estado> listar() {
-        return estadoRepository.listar();
+        return estadoRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Estado> buscar(@PathVariable Long id) {
-        var estado = estadoRepository.buscar(id);
-
-        return Optional.ofNullable(estado)
+        return estadoRepository.findById(id)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
     }

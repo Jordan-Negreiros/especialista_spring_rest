@@ -4,6 +4,7 @@ import com.jordan.algafoods.domain.exception.EntidadeEmUsoException;
 import com.jordan.algafoods.domain.exception.EntidadeNaoEncontradaException;
 import com.jordan.algafoods.domain.model.Cozinha;
 import com.jordan.algafoods.domain.repository.CozinhaRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -12,20 +13,20 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CadastroCozinhaService {
 
-    @Autowired
-    CozinhaRepository cozinhaRepository;
+    private final CozinhaRepository cozinhaRepository;
 
     public Cozinha salvar(Cozinha cozinha) {
-        return cozinhaRepository.salvar(cozinha);
+        return cozinhaRepository.save(cozinha);
     }
 
     public void atualizar(Long id, Cozinha cozinha) {
-        Optional.ofNullable(cozinhaRepository.buscar(id))
+        cozinhaRepository.findById(id)
             .ifPresentOrElse(cozinhaAtual -> {
                 BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
-                cozinhaRepository.salvar(cozinhaAtual);
+                cozinhaRepository.save(cozinhaAtual);
             }, () -> {
                 throw new EntidadeNaoEncontradaException(String.format("Cozinha com código %d não encontrado", id));
             });
@@ -33,7 +34,7 @@ public class CadastroCozinhaService {
 
     public void remover(Long id) {
         try {
-            cozinhaRepository.remover(id);
+            cozinhaRepository.deleteById(id);
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(String.format("Cozinha de código %d não pode ser removida pois está em uso", id));
         }

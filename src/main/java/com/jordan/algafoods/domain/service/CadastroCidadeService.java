@@ -18,14 +18,14 @@ public class CadastroCidadeService {
     private final CidadeRepository cidadeRepository;
 
     public Cidade salvar(final Cidade cidade) {
-        return cidadeRepository.salvar(cidade);
+        return cidadeRepository.save(cidade);
     }
 
     public void atualizar(final Long id, final Cidade cidade) {
-        Optional.ofNullable(cidadeRepository.buscar(id))
+        cidadeRepository.findById(id)
             .ifPresentOrElse(cidadeAtual -> {
                 BeanUtils.copyProperties(cidade, cidadeAtual, "id");
-                cidadeRepository.salvar(cidadeAtual);
+                cidadeRepository.save(cidadeAtual);
             }, () -> {
               throw new EntidadeNaoEncontradaException(String.format("Cozinha de código %d não pode ser removida pois está em uso", id));
         });
@@ -33,7 +33,7 @@ public class CadastroCidadeService {
 
     public void remover(final Long id) {
         try {
-            cidadeRepository.remover(id);
+            cidadeRepository.deleteById(id);
         } catch (DataIntegrityViolationException e) {
             throw new EntidadeEmUsoException(String.format("Cidade de código %d não pode ser removida pois está em uso", id));
         }

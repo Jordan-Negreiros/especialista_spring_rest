@@ -38,14 +38,12 @@ public class CidadeController {
 
     @GetMapping
     public List<Cidade> listar() {
-        return cidadeRepository.listar();
+        return cidadeRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Cidade> buscarPorId(@PathVariable Long id) {
-        var cidade = cidadeRepository.buscar(id);
-
-        return Optional.ofNullable(cidade)
+        return cidadeRepository.findById(id)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
     }

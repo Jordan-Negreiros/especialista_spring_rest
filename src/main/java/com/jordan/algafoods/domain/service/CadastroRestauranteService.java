@@ -4,6 +4,7 @@ import com.jordan.algafoods.domain.exception.EntidadeNaoEncontradaException;
 import com.jordan.algafoods.domain.model.Restaurante;
 import com.jordan.algafoods.domain.repository.CozinhaRepository;
 import com.jordan.algafoods.domain.repository.RestauranteRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,25 +12,22 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CadastroRestauranteService {
 
-    @Autowired
-    private RestauranteRepository restauranteRepository;
-
-    @Autowired
-    private CozinhaRepository cozinhaRepository;
+    private final RestauranteRepository restauranteRepository;
+    private final CozinhaRepository cozinhaRepository;
 
     public Restaurante salvar(Restaurante restaurante) {
         validaCozinhaExiste(restaurante.getCozinha().getId());
-        return restauranteRepository.salvar(restaurante);
+        return restauranteRepository.save(restaurante);
     }
 
     public void atualizar(Long id, Restaurante restaurante) {
-        Optional.ofNullable(restauranteRepository.buscar(id))
-            .ifPresentOrElse(restauranteAtual -> {
+        restauranteRepository.findById(id).ifPresentOrElse(restauranteAtual -> {
                 validaCozinhaExiste(restaurante.getCozinha().getId());
                 BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
-                restauranteRepository.salvar(restauranteAtual);
+                restauranteRepository.save(restauranteAtual);
             }, () -> {
                 throw new EntidadeNaoEncontradaException(
                     String.format("Restaurante com Id: %d, não encontrado", id));
@@ -37,9 +35,9 @@ public class CadastroRestauranteService {
     }
 
     private void validaCozinhaExiste(final Long cozinhaId) {
-        var cozinha = cozinhaRepository.buscar(cozinhaId);
+        var cozinha = cozinhaRepository.findById(cozinhaId).isEmpty();
 
-        if (cozinha == null) {
+        if (cozinha) {
             throw new EntidadeNaoEncontradaException(
                 String.format("Não existe cadastro de cozinha com o código %d", cozinhaId));
         }
