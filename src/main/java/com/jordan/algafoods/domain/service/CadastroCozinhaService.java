@@ -6,11 +6,8 @@ import com.jordan.algafoods.domain.model.Cozinha;
 import com.jordan.algafoods.domain.repository.CozinhaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

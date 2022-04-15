@@ -19,13 +19,13 @@ public class CadastroEstadoService {
         return estadoRepository.save(estado);
     }
 
-    public void atualizar(Long id, Estado estado){
+    public void atualizar(Long id, Estado estado) {
         estadoRepository.findById(id).ifPresentOrElse(estadoAtual -> {
-                BeanUtils.copyProperties(estado, estadoAtual, "id");
-                estadoRepository.save(estadoAtual);
-            }, () -> {
-                throw new EntidadeNaoEncontradaException(String.format("Estado com código %d não encontrado", id));
-            });
+            BeanUtils.copyProperties(estado, estadoAtual, "id");
+            estadoRepository.save(estadoAtual);
+        }, () -> {
+            throw new EntidadeNaoEncontradaException(String.format("Estado com código %d não encontrado", id));
+        });
     }
 
     public void remover(Long id) {

@@ -6,10 +6,7 @@ import com.jordan.algafoods.domain.repository.CozinhaRepository;
 import com.jordan.algafoods.domain.repository.RestauranteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,13 +22,13 @@ public class CadastroRestauranteService {
 
     public void atualizar(Long id, Restaurante restaurante) {
         restauranteRepository.findById(id).ifPresentOrElse(restauranteAtual -> {
-                validaCozinhaExiste(restaurante.getCozinha().getId());
-                BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
-                restauranteRepository.save(restauranteAtual);
-            }, () -> {
-                throw new EntidadeNaoEncontradaException(
-                    String.format("Restaurante com Id: %d, não encontrado", id));
-            });
+            validaCozinhaExiste(restaurante.getCozinha().getId());
+            BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
+            restauranteRepository.save(restauranteAtual);
+        }, () -> {
+            throw new EntidadeNaoEncontradaException(
+                String.format("Restaurante com Id: %d, não encontrado", id));
+        });
     }
 
     private void validaCozinhaExiste(final Long cozinhaId) {

@@ -9,8 +9,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class CadastroCidadeService {
@@ -27,8 +25,8 @@ public class CadastroCidadeService {
                 BeanUtils.copyProperties(cidade, cidadeAtual, "id");
                 cidadeRepository.save(cidadeAtual);
             }, () -> {
-              throw new EntidadeNaoEncontradaException(String.format("Cozinha de código %d não pode ser removida pois está em uso", id));
-        });
+                throw new EntidadeNaoEncontradaException(String.format("Cozinha de código %d não pode ser removida pois está em uso", id));
+            });
     }
 
     public void remover(final Long id) {
