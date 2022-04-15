@@ -29,7 +29,27 @@ public class TestController {
     }
 
     @GetMapping("/restaurante")
-    public List<Restaurante> findRestaurantePorTaxaFrete(String nome, Long cozinhaId) {
+    public List<Restaurante> findRestaurantePorNomeECozinhaId(String nome, Long cozinhaId) {
         return restauranteRepository.findByNomeContainingAndCozinhaId(nome, cozinhaId);
+    }
+
+    @GetMapping("/restaurante/nome/primeiro")
+    public Restaurante findPrimeiroRestaurantePorNome(String nome) {
+        return restauranteRepository.findFirstByNomeContaining(nome).orElse(null);
+    }
+
+    @GetMapping("/restaurante/nome/top2")
+    public List<Restaurante> findTop2RestaurantePorNome(String nome) {
+        return restauranteRepository.findTop2ByNomeContaining(nome);
+    }
+
+    @GetMapping("/restaurante/nome/existe")
+    public boolean existRestaurantePorNome(String nome) {
+        return restauranteRepository.existsByNome(nome);
+    }
+
+    @GetMapping("/restaurante/count")
+    public int existRestaurantePorNome(Long cozinhaId) {
+        return restauranteRepository.countByCozinhaId(cozinhaId);
     }
 }
